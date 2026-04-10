@@ -1,0 +1,222 @@
+<!-- filepath: c:\Users\nehar\Desktop\projects\ev_energy_prediction\templates\prediction\user_home.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4f8cff;
+            --secondary: #22c55e;
+            --accent: #2563d8;
+            --danger: #f44336;
+            --danger-dark: #c62828;
+            --purple: #a259e6;
+            --purple-dark: #7c3aed;
+            --orange: #ff9800;
+            --teal: #14b8a6;
+            --pink: #ec4899;
+            --white: #fff;
+            --success-bg: #e7fbe7;
+            --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.10);
+            --radius: 18px;
+            --transition: 0.2s cubic-bezier(.68,-0.55,.27,1.55);
+        }
+        body {
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.5s;
+            position: relative;
+            overflow: hidden;
+        }
+        .car-bg {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 700px;
+            max-width: 95vw;
+            opacity: 0.95;
+            z-index: 0;
+            pointer-events: none;
+            user-select: none;
+            filter: drop-shadow(0 8px 32px #2228);
+        }
+        .color-mode-toggle {
+            position: fixed;
+            top: 24px;
+            right: 32px;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .color-mode-btn {
+            width: 36px;
+            height: 36px;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            outline: 2px solid #fff;
+            background: linear-gradient(135deg, #4f8cff 0%, #22c55e 100%);
+            transition: outline 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+        }
+        .color-mode-btn.mode2 { background: linear-gradient(135deg, #ffb347 0%, #ff5e62 100%); }
+        .color-mode-btn.mode3 { background: linear-gradient(135deg, #8e2de2 0%, #4a00e0 100%); }
+        .color-mode-btn.mode4 { background: linear-gradient(135deg, #43cea2 0%, #185a9d 100%); }
+        .color-mode-btn.selected { outline: 3px solid var(--accent); }
+        .glass {
+            background: rgba(255,255,255,0.92);
+            box-shadow: var(--shadow);
+            border-radius: var(--radius);
+            padding: 32px 24px 24px 24px;
+            max-width: 340px;
+            width: 100%;
+            text-align: center;
+            z-index: 1;
+            position: relative;
+            backdrop-filter: blur(2.5px);
+            animation: floatIn 0.8s var(--transition);
+        }
+        @keyframes floatIn {
+            from { transform: translateY(40px) scale(0.95); opacity: 0; }
+            to { transform: translateY(0) scale(1); opacity: 1; }
+        }
+        h2 {
+            color: var(--accent);
+            font-size: 2em;
+            margin-bottom: 24px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        .user-btn {
+            display: block;
+            width: 80%;
+            margin: 12px auto;
+            padding: 12px 0;
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            font-size: 1.08em;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 8px rgba(79,140,255,0.10);
+        }
+        .user-btn.upload {
+            background: var(--primary);
+        }
+        .user-btn.upload:hover {
+            background: var(--accent);
+        }
+        .user-btn.preprocess {
+            background: var(--orange);
+        }
+        .user-btn.preprocess:hover {
+            background: #ff7043;
+        }
+        .user-btn.algorithms {
+            background: var(--teal);
+        }
+        .user-btn.algorithms:hover {
+            background: #0d9488;
+        }
+        .user-btn.predict {
+            background: var(--purple);
+        }
+        .user-btn.predict:hover {
+            background: var(--purple-dark);
+        }
+        .user-btn.logout {
+            background: var(--danger);
+        }
+        .user-btn.logout:hover {
+            background: var(--danger-dark);
+        }
+        .welcome-msg {
+            margin-top: 20px;
+            color: var(--accent);
+            font-size: 1em;
+            font-weight: 500;
+            background: var(--success-bg);
+            border-radius: 8px;
+            padding: 10px 0;
+        }
+        @media (max-width: 600px) {
+            .glass {
+                padding: 18px 4vw 12px 4vw;
+                max-width: 98vw;
+            }
+            h2 {
+                font-size: 1.3em;
+            }
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function setColorMode(mode) {
+            const themes = {
+                mode1: "linear-gradient(135deg, #4f8cff 0%, #22c55e 100%)",
+                mode2: "linear-gradient(135deg, #ffb347 0%, #ff5e62 100%)",
+                mode3: "linear-gradient(135deg, #8e2de2 0%, #4a00e0 100%)",
+                mode4: "linear-gradient(135deg, #43cea2 0%, #185a9d 100%)"
+            };
+            document.body.style.background = themes[mode];
+            localStorage.setItem('userColorMode', mode);
+            document.querySelectorAll('.color-mode-btn').forEach(btn => btn.classList.remove('selected'));
+            document.getElementById(mode).classList.add('selected');
+        }
+        window.onload = function() {
+            const saved = localStorage.getItem('userColorMode') || 'mode1';
+            setColorMode(saved);
+        };
+    </script>
+</head>
+<body>
+    <div class="color-mode-toggle">
+        <button id="mode1" class="color-mode-btn mode1" onclick="setColorMode('mode1')" title="Blue-Green"></button>
+        <button id="mode2" class="color-mode-btn mode2" onclick="setColorMode('mode2')" title="Orange-Red"></button>
+        <button id="mode3" class="color-mode-btn mode3" onclick="setColorMode('mode3')" title="Purple"></button>
+        <button id="mode4" class="color-mode-btn mode4" onclick="setColorMode('mode4')" title="Aqua-Blue"></button>
+    </div>
+    <div class="car-bg">
+        <svg viewBox="0 0 800 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="400" cy="260" rx="260" ry="24" fill="#111" opacity="0.45"/>
+            <rect x="180" y="150" width="440" height="70" rx="35" fill="#23272f"/>
+            <rect x="230" y="120" width="340" height="60" rx="30" fill="#333b4f"/>
+            <rect x="260" y="130" width="110" height="35" rx="15" fill="#b3e0fc" opacity="0.85"/>
+            <rect x="430" y="130" width="110" height="35" rx="15" fill="#b3e0fc" opacity="0.85"/>
+            <ellipse cx="250" cy="220" rx="38" ry="38" fill="#111"/>
+            <ellipse cx="250" cy="220" rx="22" ry="22" fill="#444"/>
+            <ellipse cx="550" cy="220" rx="38" ry="38" fill="#111"/>
+            <ellipse cx="550" cy="220" rx="22" ry="22" fill="#444"/>
+            <ellipse cx="180" cy="185" rx="12" ry="8" fill="#ffe066" opacity="0.7"/>
+            <ellipse cx="620" cy="185" rx="12" ry="8" fill="#ffe066" opacity="0.7"/>
+            <rect x="320" y="170" width="160" height="18" rx="7" fill="#222"/>
+            <rect x="370" y="110" width="60" height="20" rx="8" fill="#222"/>
+            <rect x="210" y="170" width="40" height="12" rx="6" fill="#222"/>
+            <rect x="550" y="170" width="40" height="12" rx="6" fill="#222"/>
+        </svg>
+    </div>
+    <div class="glass shadow-lg">
+        <h2>Welcome, User!</h2>
+        <a href="{% url 'upload_dataset' %}" class="user-btn upload fw-semibold">Upload Dataset</a>
+        <a href="{% url 'preprocess_dataset' %}" class="user-btn preprocess fw-semibold">Preprocess Dataset</a>
+        <a href="{% url 'ml_algorithms' %}" class="user-btn algorithms fw-semibold">ML Algorithms</a>
+        <a href="{% url 'predict' %}" class="user-btn predict fw-semibold">Predict</a>
+        <a href="{% url 'logout' %}" class="user-btn logout fw-semibold" style="margin-top:20px;">Logout</a>
+        <div class="welcome-msg mt-3">
+            Welcome to the EV Energy Prediction platform.<br>
+            Use the options above to manage your datasets and predictions.
+        </div>
+    </div>
+</body>
+</html>

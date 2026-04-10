@@ -1,0 +1,149 @@
+<!-- filepath: c:\Users\nehar\Desktop\projects\ev_energy_prediction\templates\prediction\report.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Graphical Report - EV Energy Prediction</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4f8cff;
+            --secondary: #22c55e;
+            --accent: #2563d8;
+            --success: #22c55e;
+            --success-bg: #e7fbe7;
+            --info-bg: #e3edff;
+            --white: #fff;
+            --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.10);
+            --radius: 16px;
+            --transition: 0.2s cubic-bezier(.68,-0.55,.27,1.55);
+        }
+        body {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .report-container {
+            max-width: 600px;
+            width: 100%;
+            margin: 60px auto;
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 40px 38px 32px 38px;
+            text-align: center;
+            position: relative;
+            animation: floatIn 0.8s var(--transition);
+            backdrop-filter: blur(2.5px);
+        }
+        @keyframes floatIn {
+            from { transform: translateY(40px) scale(0.95); opacity: 0; }
+            to { transform: translateY(0) scale(1); opacity: 1; }
+        }
+        h2 {
+            color: var(--accent);
+            margin-bottom: 24px;
+            font-size: 2em;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        h3 {
+            color: var(--primary);
+            margin-top: 28px;
+            margin-bottom: 12px;
+            font-size: 1.18em;
+            font-weight: 600;
+        }
+        .chart-img {
+            max-width: 90%;
+            border-radius: 10px;
+            margin-bottom: 18px;
+            box-shadow: 0 2px 10px rgba(79,140,255,0.08);
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 18px 0 0 0;
+        }
+        li {
+            background: var(--info-bg);
+            margin: 8px auto;
+            padding: 11px 0;
+            border-radius: 7px;
+            color: var(--accent);
+            font-weight: 600;
+            max-width: 320px;
+            font-size: 1.05em;
+            letter-spacing: 0.2px;
+            box-shadow: 0 1px 4px rgba(79,140,255,0.06);
+        }
+        .best-msg {
+            margin-top: 28px;
+            font-size: 1.18em;
+            color: #15803d;
+            font-weight: 700;
+            background: var(--success-bg);
+            border-radius: 10px;
+            padding: 14px 0;
+            letter-spacing: 0.2px;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 26px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 10px 28px;
+            border-radius: 8px;
+            background: var(--info-bg);
+            transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 8px rgba(79,140,255,0.10);
+            font-size: 1.05em;
+        }
+        .back-link:hover {
+            background: #c7dbfa;
+            color: var(--accent);
+            text-decoration: underline;
+            box-shadow: 0 4px 16px rgba(34,197,94,0.10);
+        }
+        @media (max-width: 700px) {
+            .report-container {
+                padding: 22px 4vw 16px 4vw;
+                max-width: 98vw;
+            }
+            h2 {
+                font-size: 1.3em;
+            }
+            .chart-img {
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="report-container shadow-lg">
+        <h2>Graphical Report</h2>
+        <h3>Pie Chart</h3>
+        <img src="data:image/png;base64,{{ pie_chart }}" class="chart-img" alt="Pie Chart" />
+        <h3>Line Chart</h3>
+        <img src="data:image/png;base64,{{ line_chart }}" class="chart-img" alt="Line Chart" />
+        <ul class="mb-3">
+            {% for algo, acc in accs %}
+                <li>{{ algo|title }}: {{ acc }}</li>
+            {% endfor %}
+        </ul>
+        {% if best_algo %}
+            <div class="best-msg mb-3">
+                <span>{{ best_algo }}</span> is the best algorithm for your dataset.
+            </div>
+        {% endif %}
+        <a href="{% url 'user_home' %}" class="back-link btn btn-outline-primary fw-semibold px-4">Back</a>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
